@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>English IPA Learning Tool</title>
+  <style>body{margin:0;font-family:Arial,sans-serif;background:#f7f9fb;color:#18202b}.loading{min-height:100vh;display:grid;place-items:center;text-align:center;padding:24px}.box{max-width:560px}.box h1{font-size:28px;margin:0 0 10px}.box p{color:#607087;line-height:1.7}</style>
+</head>
+<body>
+  <div class="loading"><div class="box"><h1>English IPA Learning Tool</h1><p id="status">Loading...</p></div></div>
+  <script src="chunks/ipa-gzip.01.js"></script>
+  <script src="chunks/ipa-gzip.02.js"></script>
+  <script src="chunks/ipa-gzip.03.js"></script>
+  <script src="chunks/ipa-gzip.04.js"></script>
+  <script src="chunks/ipa-gzip.05.js"></script>
+  <script src="chunks/ipa-gzip.06.js"></script>
+  <script>
+    (async function(){
+      var status=document.getElementById('status');
+      try {
+        if (!('DecompressionStream' in window)) throw new Error('Unsupported browser');
+        var b64=(window.__IPA_GZIP_B64__||[]).join('');
+        var bin=atob(b64);
+        var bytes=new Uint8Array(bin.length);
+        for(var i=0;i<bin.length;i+=1) bytes[i]=bin.charCodeAt(i);
+        var stream=new Blob([bytes]).stream().pipeThrough(new DecompressionStream('gzip'));
+        var html=await new Response(stream).text();
+        document.open();
+        document.write(html);
+        document.close();
+      } catch (error) {
+        status.textContent='This browser cannot load the compressed page. Please use the latest Chrome, Edge, or Safari.';
+        console.error(error);
+      }
+    })();
+  </script>
+</body>
+</html>
